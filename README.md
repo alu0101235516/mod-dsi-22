@@ -1,1 +1,2 @@
-# mod-dsi-22
+# Modificación de DSI.
+## Adrián Hernández Suárez - PE 103 Jueves
