@@ -1,6 +1,6 @@
 {
   "entryPoints": [
-    "./src/prueba.ts"
+    "./src/seguridad/gamal.ts"
   ],
   "out": "./docs"
 }
