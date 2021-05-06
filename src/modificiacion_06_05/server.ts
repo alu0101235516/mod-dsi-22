@@ -11,15 +11,29 @@ const server = net.createServer({allowHalfOpen: true}, (connection) => {
   });
 
   connection.on('end', () => {
-    fs.writeFile('salida.txt', mensajeTexto, (err) => {
-      if (err) {
-        console.log("Se ha producido un error para escribir en el fichero de salida");
-      } else {
-        connection.write(`Se ha almancenado el mensaje "${mensajeTexto}" en el fichero salida.txt\n`, () => {
-          connection.end();
-        });
-      }
-    });
+    if (fs.existsSync('salida.txt')) {
+      fs.appendFile('salida.txt', `\n${mensajeTexto}`, (err) => {
+        if (err) {
+          console.log("Se ha producido un error para escribir en el fichero de salida");
+        } else {
+          console.log(`Se ha almancenado el mensaje "${mensajeTexto}" enviado por el cliente en el fichero salida.txt\n`);
+          connection.write(`Se ha almancenado el mensaje "${mensajeTexto}" en el fichero salida.txt\n`, () => {
+            connection.end();
+          });
+        }
+      });
+    } else {
+      fs.writeFile('salida.txt', `${mensajeTexto}\n`, (err) => {
+        if (err) {
+          console.log("Se ha producido un error para escribir en el fichero de salida");
+        } else {
+          console.log(`Se ha almancenado el mensaje "${mensajeTexto}" enviado por el cliente en el fichero salida.txt\n`);
+          connection.write(`Se ha almancenado el mensaje "${mensajeTexto}" en el fichero salida.txt\n`, () => {
+            connection.end();
+          });
+        }
+      });
+    }
   });
 
   connection.on('close', () => {
